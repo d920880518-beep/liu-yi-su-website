@@ -3,14 +3,397 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>留一宿・果厝｜金門古厝民宿</title>
+  <title>留一宿・果厝｜金門水頭古厝民宿</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      color: #3f3a34;
+      background: #faf8f4;
+      line-height: 1.8;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* 導覽列 */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 248, 244, 0.96);
+      border-bottom: 1px solid #e7e0d6;
+    }
+
+    nav {
+      max-width: 1180px;
+      margin: auto;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 26px;
+      font-size: 14px;
+    }
+
+    /* 首頁主視覺 */
+    .hero {
+      min-height: 82vh;
+      background:
+        linear-gradient(rgba(30,25,20,.28), rgba(30,25,20,.38)),
+        url("images/801-1.png") center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 30px;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(38px, 7vw, 76px);
+      letter-spacing: 8px;
+      margin-bottom: 10px;
+    }
+
+    .hero-content .english {
+      font-family: Georgia, serif;
+      font-size: 18px;
+      letter-spacing: 2px;
+      margin-bottom: 28px;
+    }
+
+    .hero-content p {
+      font-size: 18px;
+      letter-spacing: 3px;
+    }
+
+    /* 共用 */
+    section {
+      padding: 90px 24px;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 55px;
+    }
+
+    .section-title small {
+      color: #9b8063;
+      letter-spacing: 3px;
+    }
+
+    .section-title h2 {
+      font-size: 32px;
+      margin-top: 8px;
+      letter-spacing: 4px;
+    }
+
+    /* 品牌介紹 */
+    .story {
+      background: #fff;
+    }
+
+    .story-inner {
+      max-width: 760px;
+      margin: auto;
+      text-align: center;
+      font-size: 17px;
+      line-height: 2.2;
+    }
+
+    .story-inner strong {
+      font-size: 23px;
+      letter-spacing: 3px;
+    }
+
+    /* 房型 */
+    .rooms {
+      background: #f3efe8;
+    }
+
+    .room-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 26px;
+    }
+
+    .room-card {
+      background: white;
+      overflow: hidden;
+      border-radius: 4px;
+      box-shadow: 0 8px 25px rgba(60,50,40,.08);
+      transition: .25s;
+    }
+
+    .room-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .room-card img {
+      height: 300px;
+      object-fit: cover;
+    }
+
+    .room-info {
+      padding: 26px;
+    }
+
+    .room-info h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+      letter-spacing: 2px;
+    }
+
+    .room-info p {
+      color: #786f65;
+      font-size: 14px;
+    }
+
+    .photo-count {
+      display: inline-block;
+      margin-top: 15px;
+      color: #9b8063;
+      font-size: 13px;
+    }
+
+    /* 照片牆 */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .gallery-grid img {
+      height: 280px;
+      object-fit: cover;
+    }
+
+    /* 訂房 */
+    .booking {
+      background: #514a41;
+      color: white;
+      text-align: center;
+    }
+
+    .booking h2 {
+      font-size: 32px;
+      letter-spacing: 4px;
+      margin-bottom: 15px;
+    }
+
+    .booking p {
+      color: #ded7cd;
+      margin-bottom: 30px;
+    }
+
+    .booking-btn {
+      display: inline-block;
+      padding: 13px 35px;
+      border: 1px solid white;
+      border-radius: 30px;
+      transition: .25s;
+    }
+
+    .booking-btn:hover {
+      background: white;
+      color: #514a41;
+    }
+
+    footer {
+      text-align: center;
+      padding: 35px 20px;
+      background: #302c28;
+      color: #bdb5aa;
+      font-size: 13px;
+    }
+
+    @media (max-width: 800px) {
+      .nav-links {
+        gap: 12px;
+        font-size: 12px;
+      }
+
+      .room-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero {
+        min-height: 70vh;
+      }
+
+      section {
+        padding: 65px 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <h1>留一宿・果厝</h1>
+<header>
+  <nav>
+    <div class="logo">留一宿・果厝</div>
+
+    <div class="nav-links">
+      <a href="#about">關於果厝</a>
+      <a href="#rooms">房型</a>
+      <a href="#gallery">空間</a>
+      <a href="#booking">訂房</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>留一宿・果厝</h1>
+      <div class="english">Stay the night, Sweet fruit site</div>
+      <p>在金門水頭古厝，留一宿，也留下一段旅行的記憶。</p>
+    </div>
+  </section>
+
+  <section class="story" id="about">
+    <div class="container">
+      <div class="section-title">
+        <small>OUR STORY</small>
+        <h2>住進金門的日常</h2>
+      </div>
+
+      <div class="story-inner">
+        <p>
+          <strong>留一宿・果厝</strong><br><br>
+          藏在金門水頭聚落的古厝裡。<br>
+          我們想留下的，不只是一個睡覺的地方，<br>
+          而是一段慢下來的時間。<br><br>
+
+          走進老屋、踩著紅磚，<br>
+          感受金門聚落的安靜與生活。<br><br>
+
+          旅行不用急著把所有景點走完。<br>
+          有時候，好好住一晚，<br>
+          就已經是旅行裡很重要的一部分。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="rooms" id="rooms">
+    <div class="container">
+
+      <div class="section-title">
+        <small>OUR ROOMS</small>
+        <h2>房間</h2>
+      </div>
+
+      <div class="room-grid">
+
+        <article class="room-card">
+          <img src="images/801-1.png" alt="801 房">
+          <div class="room-info">
+            <h3>801</h3>
+            <p>在古厝裡，留一個屬於自己的安靜角落。</p>
+            <span class="photo-count">共 6 張房間照片</span>
+          </div>
+        </article>
+
+        <article class="room-card">
+          <img src="images/802-1.png" alt="802 房">
+          <div class="room-info">
+            <h3>802</h3>
+            <p>簡單舒服的空間，適合慢慢住上一晚。</p>
+            <span class="photo-count">共 6 張房間照片</span>
+          </div>
+        </article>
+
+        <article class="room-card">
+          <img src="images/805-1.png" alt="805 房">
+          <div class="room-info">
+            <h3>805</h3>
+            <p>讓老屋的質感，陪你度過金門的夜晚。</p>
+            <span class="photo-count">共 5 張房間照片</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="container">
+
+      <div class="section-title">
+        <small>GALLERY</small>
+        <h2>果厝一隅</h2>
+      </div>
+
+      <div class="gallery-grid">
+        <img src="images/801-2.png" alt="留一宿果厝 801">
+        <img src="images/801-3.png" alt="留一宿果厝 801">
+        <img src="images/802-2.png" alt="留一宿果厝 802">
+        <img src="images/802-3.png" alt="留一宿果厝 802">
+        <img src="images/805-2.png" alt="留一宿果厝 805">
+        <img src="images/805-3.png" alt="留一宿果厝 805">
+      </div>
+
+    </div>
+  </section>
+
+  <section class="booking" id="booking">
+    <div class="container">
+      <h2>今晚，留一宿</h2>
+      <p>
+        想來金門住進古厝、慢慢感受水頭聚落，<br>
+        歡迎與我們聯絡。
+      </p>
+
+      <a class="booking-btn" href="#booking">聯絡我們訂房</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>留一宿・果厝｜金門水頭古厝民宿</p>
   <p>Stay the night, Sweet fruit site</p>
-  <p>在金門水頭古厝，留一宿，也留下一段旅行的記憶。</p>
+</footer>
 
 </body>
 </html>
