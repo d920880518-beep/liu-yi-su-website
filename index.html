@@ -399,7 +399,7 @@
     </div>
 
     <div style="text-align:center; margin-top:30px;">
-      <a class="booking-btn" href="#booking">我要訂房</a>
+      <a class="booking-btn" href="#booking" onclick="sessionStorage.setItem('selectedRoom','801四人樓中樓房')">我要訂房</a>
     </div>
   </div>
 </section>
@@ -461,6 +461,8 @@
         歡迎與我們聯絡。
       </p>
 
+      <p id="selected-room" style="font-weight:bold; margin-bottom:20px;"></p>
+      
       <a class="booking-btn" href="https://lin.ee/Ni7hnXW" target="_blank" rel="noopener noreferrer">LINE 聯絡訂房</a>
     </div>
   </section>
@@ -472,5 +474,14 @@
   <p>Stay the night, Sweet fruit site</p>
 </footer>
 
+<script>
+  const selectedRoom = sessionStorage.getItem('selectedRoom');
+  const selectedRoomText = document.getElementById('selected-room');
+
+  if (selectedRoom && selectedRoomText) {
+    selectedRoomText.textContent = '您選擇：' + selectedRoom;
+  }
+</script>
+  
 </body>
 </html>
