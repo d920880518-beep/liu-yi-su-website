@@ -462,6 +462,16 @@
       </p>
 
       <p id="selected-room" style="font-weight:bold; margin-bottom:20px;"></p>
+
+      <div style="margin-bottom:15px;">
+      <label for="checkin">入住日期：</label>
+      <input type="date" id="checkin">
+      </div>
+
+      <div style="margin-bottom:20px;">
+      <label for="checkout">退房日期：</label>
+      <input type="date" id="checkout">
+      </div>
       
       <a class="booking-btn" href="https://lin.ee/Ni7hnXW" target="_blank" rel="noopener noreferrer">LINE 聯絡訂房</a>
     </div>
@@ -481,6 +491,21 @@
   if (selectedRoom && selectedRoomText) {
     selectedRoomText.textContent = '您選擇：' + selectedRoom;
   }
+  const checkin = document.getElementById('checkin');
+const checkout = document.getElementById('checkout');
+
+const today = new Date().toISOString().split('T')[0];
+
+checkin.min = today;
+checkout.min = today;
+
+checkin.addEventListener('change', function () {
+  checkout.min = checkin.value;
+
+  if (checkout.value && checkout.value <= checkin.value) {
+    checkout.value = '';
+  }
+});
 </script>
   
 </body>
