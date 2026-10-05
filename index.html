@@ -265,6 +265,8 @@
       }
     }
   </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
 </head>
 
 <body>
@@ -464,6 +466,21 @@
       <p id="selected-room" style="font-weight:bold; margin-bottom:20px;"></p>
 
       <div style="margin-bottom:15px;">
+      <label for="guest-name">訂房人姓名：</label>
+      <input type="text" id="guest-name" placeholder="請輸入姓名">
+      </div>
+
+      <div style="margin-bottom:15px;">
+      <label for="phone">手機號碼：</label>
+      <input type="tel" id="phone" placeholder="請輸入手機號碼">
+      </div>
+
+      <div style="margin-bottom:15px;">
+      <label for="guests">入住人數：</label>
+      <input type="number" id="guests" min="1" max="7" placeholder="請輸入入住人數">
+      </div>
+      
+      <div style="margin-bottom:15px;">
       <label for="checkin">入住日期：</label>
       <input type="date" id="checkin">
       </div>
@@ -473,7 +490,7 @@
       <input type="date" id="checkout">
       </div>
       
-      <a class="booking-btn" href="https://lin.ee/Ni7hnXW" target="_blank" rel="noopener noreferrer">LINE 聯絡訂房</a>
+      <a id="submit-booking" class="booking-btn" href="https://lin.ee/Ni7hnXW" target="_blank" rel="noopener noreferrer">LINE 聯絡訂房</a>
 
      <div style="margin-top:25px; text-align:center;">
   <p style="margin-bottom:10px;">使用電腦瀏覽？請用手機 LINE 掃描 QR Code</p>
@@ -491,7 +508,13 @@
 </footer>
 
 <script>
-  const selectedRoom = sessionStorage.getItem('selectedRoom');
+
+  const SUPABASE_URL = 'https://ugwfxlrmexxdwdnfowyv.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_s_U9n3R8itGuOcQnYA25tQ_hxxESyd7';
+  const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+   const selectedRoom = sessionStorage.getItem('selectedRoom');
+  
   const selectedRoomText = document.getElementById('selected-room');
 
   if (selectedRoom && selectedRoomText) {
@@ -512,6 +535,42 @@ checkin.addEventListener('change', function () {
     checkout.value = '';
   }
 });
+
+  const submitBooking = document.getElementById('submit-booking');
+const guestName = document.getElementById('guest-name');
+const phone = document.getElementById('phone');
+const guests = document.getElementById('guests');
+
+  submitBooking.addEventListener('click', async function (e) {
+  e.preventDefault();
+
+if (!guestName.value || !phone.value || !guests.value || !checkin.value || !checkout.value || !selectedRoom) {
+  alert('請完整填寫訂房姓名、手機號碼、入住人數、入住日期與退房日期');
+  return;
+}
+    const { error } = await db
+  .from('reservations')
+  .insert({
+    room_name: selectedRoom,
+    guest_name: guestName.value.trim(),
+    phone: phone.value.trim(),
+    checkin: checkin.value,
+    checkout: checkout.value,
+    source: '官網',
+    note: `入住人數：${guests.value}人`
+  });
+
+if (error) {
+  console.error('訂房寫入失敗：', error);
+  alert('訂房資料送出失敗，請稍後再試。');
+  return;
+}
+
+alert('訂房資料已送出，即將前往 LINE 與我們確認訂房。');
+window.location.href = submitBooking.href;
+    
+});
+  
 </script>
   
 </body>
