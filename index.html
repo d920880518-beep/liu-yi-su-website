@@ -463,7 +463,24 @@
         歡迎與我們聯絡。
       </p>
 
-      <p id="selected-room" style="font-weight:bold; margin-bottom:20px;"></p>
+      <div id="room-selection" style="margin-bottom:20px; text-align:left; display:inline-block;">
+  <p style="font-weight:bold;">請選擇房型（可複選）：</p>
+
+  <label style="display:block; margin:12px 0;">
+    <input type="checkbox" name="booking-room" value="801四人樓中樓房">
+    801 四人樓中樓房
+  </label>
+
+  <label style="display:block; margin:12px 0;">
+    <input type="checkbox" name="booking-room" value="802七人團體樓中樓房">
+    802 七人團體樓中樓房
+  </label>
+
+  <label style="display:block; margin:12px 0;">
+    <input type="checkbox" name="booking-room" value="805雙人房">
+    805 雙人房
+  </label>
+</div>
 
       <div style="margin-bottom:15px;">
       <label for="guest-name">訂房人姓名：</label>
@@ -514,12 +531,20 @@
   const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
    const selectedRoom = sessionStorage.getItem('selectedRoom');
-  
-  const selectedRoomText = document.getElementById('selected-room');
 
-  if (selectedRoom && selectedRoomText) {
-    selectedRoomText.textContent = '您選擇：' + selectedRoom;
-  }
+const roomCheckboxes = document.querySelectorAll(
+  'input[name="booking-room"]'
+);
+
+if (selectedRoom) {
+  roomCheckboxes.forEach(function(checkbox) {
+    if (checkbox.value === selectedRoom) {
+      checkbox.checked = true;
+    }
+  });
+
+  sessionStorage.removeItem('selectedRoom');
+}
   const checkin = document.getElementById('checkin');
 const checkout = document.getElementById('checkout');
 
@@ -544,21 +569,29 @@ const guests = document.getElementById('guests');
   submitBooking.addEventListener('click', async function (e) {
   e.preventDefault();
 
-if (!guestName.value || !phone.value || !guests.value || !checkin.value || !checkout.value || !selectedRoom) {
+const selectedRooms = Array.from(
+  document.querySelectorAll('input[name="booking-room"]:checked')
+).map(checkbox => checkbox.value);
+    
+if (!guestName.value || !phone.value || !guests.value || !checkin.value || !checkout.value || selectedRooms.length === 0) {
   alert('請完整填寫訂房姓名、手機號碼、入住人數、入住日期與退房日期');
   return;
 }
-    const { error } = await db
-  .from('reservations')
-  .insert({
-    room_name: selectedRoom,
+    const bookingRecords = selectedRooms.map(function(room) {
+  return {
+    room_name: room,
     guest_name: guestName.value.trim(),
     phone: phone.value.trim(),
     checkin: checkin.value,
     checkout: checkout.value,
     source: '官網',
     note: `入住人數：${guests.value}人`
-  });
+  };
+});
+
+const { error } = await db
+  .from('reservations')
+  .insert(bookingRecords);
 
 if (error) {
   console.error('訂房寫入失敗：', error);
