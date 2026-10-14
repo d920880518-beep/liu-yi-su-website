@@ -599,8 +599,23 @@ if (error) {
   return;
 }
 
+const lineMessage = [
+  '🏡 留一宿・果厝｜官網訂房確認',
+  '',
+  '訂房姓名：' + guestName.value.trim(),
+  '聯絡電話：' + phone.value.trim(),
+  '預訂房型：' + selectedRooms.join('、'),
+  '入住人數：' + guests.value + '人',
+  '入住日期：' + checkin.value,
+  '退房日期：' + checkout.value,
+  '',
+  '您好，我已在官網填寫訂房資料，',
+  '想請您協助確認房況及住宿金額，謝謝！'
+].join('\n');
+    
 alert('訂房資料已送出，即將前往 LINE 與我們確認訂房。');
-window.location.href = submitBooking.href;
+const lineUrl = 'https://line.me/R/oaMessage/@696qakeq/?' + encodeURIComponent(lineMessage);
+window.location.href = lineUrl;
     
 });
   
